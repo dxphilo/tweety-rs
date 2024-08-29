@@ -1,6 +1,6 @@
 [package]
 name = "tweety-rs"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 authors = ["John Phili <philo702@gmail.com>"]
 description = "A Rust library for interacting with the Twitter API."
