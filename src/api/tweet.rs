@@ -2,8 +2,19 @@ use crate::api::client::TweetyClient;
 use crate::api::error::TweetyError;
 use reqwest::Method;
 use serde::{Deserialize, Serialize};
-use serde_json::Value;
+use serde_json::{json, Value};
 use std::fmt;
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct TweetRequest {
+    pub text: String,
+    pub media: Media,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Media {
+    pub media_ids: Vec<String>,
+}
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct DeleteResponse {
@@ -55,17 +66,20 @@ impl TweetyClient {
     pub async fn post_tweet(
         &self,
         message: &str,
-        media_id: Option<u64>,
+        media_ids: Option<Vec<String>>,
     ) -> Result<Value, TweetyError> {
         let base_url = "https://api.twitter.com/2/tweets";
 
-        let body = if let Some(id) = media_id {
-            serde_json::json!({
+        // TODO: A BETTER WAY TO HANDLE ALL THE BODY PARAMETERS
+        let body = if let Some(ids) = media_ids {
+            json!({
                 "text": message,
-                "media_id": id,
+                "media": {
+                    "media_ids": ids,
+                }
             })
         } else {
-            serde_json::json!({
+            json!({
                 "text": message,
             })
         };
