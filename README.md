@@ -136,7 +136,7 @@ Twitter has a small window cap for the free tier, so it's important to be aware 
 
   - **Elevated Access**: 300 requests per 15-minute window per user.
 
-Check out the [rate limits Documentaio](https://developer.x.com/en/docs/x-api/rate-limits)
+Check out the [rate limits Documentation](https://developer.x.com/en/docs/x-api/rate-limits)
 
 ## Modules
 The crate is organized into several modules, each responsible for different aspects of the Twitter API:
