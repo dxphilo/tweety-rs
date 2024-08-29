@@ -10,7 +10,7 @@ documentation = "https://docs.rs/tweety-rs"
 homepage = "https://github.com/dxphilo/tweety-rs"
 readme = "README.md"
 keywords = ["twitter", "api", "rust", "tweety-rs"]
-categories = ["api-bindings", "social-media"]
+categories = ["api-bindings"]
 
 [dependencies]
 dotenvy = "0.15.7"
