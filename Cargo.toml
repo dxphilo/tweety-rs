@@ -1,0 +1,24 @@
+[package]
+name = "tweety-rs"
+version = "0.1.0"
+edition = "2021"
+authors = ["John Phili <philo702@gmail.com>"]
+description = "A Rust library for interacting with the Twitter API."
+license = "MIT"
+repository = "https://github.com/dxphilo/tweety-rs"
+documentation = "https://docs.rs/tweety-rs"
+homepage = "https://github.com/dxphilo/tweety-rs"
+readme = "README.md"
+keywords = ["twitter", "api", "rust", "tweety-rs"]
+categories = ["api-bindings", "social-media"]
+
+[dependencies]
+dotenvy = "0.15.7"
+reqwest = {version="0.12.7",features=["stream","multipart","json"]}
+reqwest-oauth1 = "0.3.0"
+serde ={version ="1.0.208", features =["derive"]}
+serde_json = "1.0.125"
+serde_urlencoded = "0.7.1"
+thiserror = "1.0.63"
+tokio = { version = "1.39.3", features = ["macros"] }
+url = "2.5.2"
