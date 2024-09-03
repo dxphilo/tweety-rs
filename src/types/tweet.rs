@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use serde_json::Value;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PostTweetParams {
@@ -28,12 +29,12 @@ pub struct PostTweetParams {
 }
 
 impl PostTweetParams {
-    /// takes the message and appends it to the body json string
-    pub fn to_json(&self, message: &str) -> String {
+    /// takes the message and appends it to the body json
+    pub fn to_json(&self, message: &str) -> Value {
         let mut json_payload = serde_json::to_value(&self).unwrap();
         json_payload["text"] = serde_json::Value::String(message.to_string());
 
-        serde_json::to_string(&json_payload).unwrap()
+        json_payload
     }
 }
 

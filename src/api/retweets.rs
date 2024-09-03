@@ -83,9 +83,7 @@ impl TweetyClient {
     }
 
     /// ## Query Parameters
-    ///
     /// [Docs](https://developer.x.com/en/docs/x-api/tweets/retweets/api-reference/get-tweets-id-retweets)
-
     /// Returns the Retweets for a given Tweet ID.
     pub async fn fetch_retweets(
         self,

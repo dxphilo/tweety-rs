@@ -87,7 +87,8 @@ impl TweetyClient {
         let json_body = if let Some(body) = body_params {
             body.to_json(message)
         } else {
-            serde_json::json!({ "text": message }).to_string()
+            let json_data = serde_json::json!({ "text": message });
+            json_data
         };
 
         match self

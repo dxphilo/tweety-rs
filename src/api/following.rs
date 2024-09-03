@@ -1,8 +1,8 @@
+use super::user::UserQueryParams;
 use crate::api::client::TweetyClient;
 use crate::api::error::TweetyError;
 use reqwest::Method;
 use serde::{Deserialize, Serialize};
-use super::user::UserQueryParams;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct FollowResponse {
@@ -17,7 +17,7 @@ pub struct FollowData {
 
 #[derive(Deserialize, Serialize, Debug)]
 pub struct FollowBody {
-    target_user_id: String,
+    pub target_user_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -129,6 +129,9 @@ impl TweetyClient {
             Err(err) => Err(TweetyError::ApiError(err.to_string())),
         }
     }
+    /// GET /2/users/:id/following
+    /// Returns a list of users the specified user ID is following.
+    /// [Docs](https://developer.x.com/en/docs/x-api/users/follows/api-reference/get-users-id-following#tab0)
     pub async fn get_users_following(
         &self,
         user_id: &str,
