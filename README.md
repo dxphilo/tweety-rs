@@ -23,7 +23,7 @@ Add `tweety-rs` to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-tweety-rs = "0.1.0"
+tweety-rs = "0.1.2"
 ```
 #### Alternatively
 
