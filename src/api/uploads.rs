@@ -50,20 +50,18 @@ impl TweetyClient {
             Ok(res) => {
                 if res.status().is_success() {
                     let res = res.json::<Media>().await?;
-                    return Ok(res.media_id);
+                    Ok(res.media_id)
                 } else {
                     let err = res.json().await;
                     if let Ok(value) = err {
                         return Ok(value);
                     }
-                    return Err(TweetyError::JsonParseError(
+                    Err(TweetyError::JsonParseError(
                         "Error parsing multipart JSON".to_string(),
-                    ));
+                    ))
                 }
             }
-            Err(err) => {
-                return Err(TweetyError::NetworkError(err.to_string()));
-            }
+            Err(err) => Err(TweetyError::NetworkError(err.to_string())),
         }
     }
 }

@@ -4,7 +4,7 @@ use reqwest::Method;
 use serde_json::Value;
 
 /// Check required params
-/// <https://developer.x.com/en/docs/x-api/tweets/retweets/api-reference/get-tweets-id-retweets#tab0>
+/// [Docs](https://developer.x.com/en/docs/x-api/tweets/retweets/api-reference/get-tweets-id-retweets#tab0)
 #[derive(Default)]
 pub struct RetweetQueryParams {
     pub expansions: Option<String>,
@@ -53,7 +53,7 @@ impl RetweetQueryParams {
 /// Retweets
 /// API reference index
 /// For the complete API reference, select an endpoint from the list:
-/// <https://developer.x.com/en/docs/x-api/tweets/retweets/api-reference>
+/// [Docs](https://developer.x.com/en/docs/x-api/tweets/retweets/api-reference)
 
 impl TweetyClient {
     /// Users who have Retweeted a Post
@@ -69,7 +69,7 @@ impl TweetyClient {
     /// Allows a user or authenticated user ID to remove the Retweet of a Tweet.
     /// The request succeeds with no action when the user sends a request to a user
     /// they're not Retweeting the Tweet or have already removed the Retweet of.
-    /// <https://developer.x.com/en/docs/x-api/tweets/retweets/api-reference/delete-users-id-retweets-tweet_id>
+    /// [Docs](https://developer.x.com/en/docs/x-api/tweets/retweets/api-reference/delete-users-id-retweets-tweet_id)
     pub async fn unretweet(
         &self,
         user_id: &str,
@@ -83,9 +83,7 @@ impl TweetyClient {
     }
 
     /// ## Query Parameters
-    ///
-    /// <https://developer.x.com/en/docs/x-api/tweets/retweets/api-reference/get-tweets-id-retweets>
-
+    /// [Docs](https://developer.x.com/en/docs/x-api/tweets/retweets/api-reference/get-tweets-id-retweets)
     /// Returns the Retweets for a given Tweet ID.
     pub async fn fetch_retweets(
         self,
@@ -98,7 +96,7 @@ impl TweetyClient {
             let query_string = query_params.to_query_string();
             if !query_string.is_empty() {
                 url.push_str("?");
-                url.push_str(&query_params.to_query_string());
+                url.push_str(&query_string);
             }
         }
         self.send_request::<()>(&url, Method::GET, None).await

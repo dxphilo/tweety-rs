@@ -1,8 +1,9 @@
 use crate::api::client::TweetyClient;
 use crate::api::error::TweetyError;
+use crate::types::tweet::PostTweetParams;
 use reqwest::Method;
 use serde::{Deserialize, Serialize};
-use serde_json::{json, Value};
+use serde_json::Value;
 use std::fmt;
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -41,20 +42,32 @@ impl fmt::Display for Ids {
     }
 }
 
+#[derive(Debug, Serialize, Deserialize)]
+pub struct PostTweetResponseData {
+    pub data: TweetResponse,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct TweetResponse {
+    pub edit_history_tweet_ids: Vec<String>,
+    pub id: String,
+    pub text: String,
+}
+
 impl TweetyClient {
-    // GET A TWEET
-    // We need to pass the tweet id we want to get its metadata information
-    // GET /2/tweets
-    // Returns a variety of information about the Tweet specified by the requested ID or list of IDs.
-    // https://developer.x.com/en/docs/x-api/tweets/lookup/api-reference/get-tweets
+    /// GET A TWEET
+    /// We need to pass the tweet id we want to get its metadata information
+    /// GET /2/tweets
+    /// Returns a variety of information about the Tweet specified by the requested ID or list of IDs.
+    /// [Docs](https://developer.x.com/en/docs/x-api/tweets/lookup/api-reference/get-tweets)
     pub async fn get_tweet(&self, tweet_id: Ids) -> Result<Value, TweetyError> {
         let base_url = format!("https://api.x.com/2/tweets/?ids={}", tweet_id);
 
         self.send_request::<()>(&base_url, Method::GET, None).await
     }
-    // GET /2/tweets/:id
-    // Returns a variety of information about a single Tweet specified by the requested ID.
-    // https://developer.x.com/en/docs/x-api/tweets/lookup/api-reference/get-tweets-id
+    /// GET /2/tweets/:id
+    /// Returns a variety of information about a single Tweet specified by the requested ID.
+    /// [Docs](https://developer.x.com/en/docs/x-api/tweets/lookup/api-reference/get-tweets-id)
     pub async fn get_tweet_info(&self, tweet_id: &str) -> Result<Value, TweetyError> {
         let base_url = format!("https://api.x.com/2/tweets/{}", tweet_id);
 
@@ -63,28 +76,31 @@ impl TweetyClient {
 
     /// SEND tweet message, Media id is optional for attaching tweets with an image
     /// You need to uploads the image first and then pass the returned media ID here
+    /// [Docs](https://developer.x.com/en/docs/x-api/tweets/manage-tweets/api-reference/post-tweets)
     pub async fn post_tweet(
         &self,
         message: &str,
-        media_ids: Option<Vec<String>>,
-    ) -> Result<Value, TweetyError> {
+        body_params: Option<PostTweetParams>,
+    ) -> Result<PostTweetResponseData, TweetyError> {
         let base_url = "https://api.twitter.com/2/tweets";
 
-        // TODO: A BETTER WAY TO HANDLE ALL THE BODY PARAMETERS
-        let body = if let Some(ids) = media_ids {
-            json!({
-                "text": message,
-                "media": {
-                    "media_ids": ids,
-                }
-            })
+        let json_body = if let Some(body) = body_params {
+            body.to_json(message)
         } else {
-            json!({
-                "text": message,
-            })
+            let json_data = serde_json::json!({ "text": message });
+            json_data
         };
 
-        return self.send_request(&base_url, Method::POST, Some(body)).await;
+        match self
+            .send_request(base_url, Method::POST, Some(json_body))
+            .await
+        {
+            Ok(value) => match serde_json::from_value::<PostTweetResponseData>(value) {
+                Ok(res) => Ok(res),
+                Err(e) => Err(TweetyError::JsonParseError(e.to_string())),
+            },
+            Err(err) => Err(TweetyError::ApiError(err.to_string())),
+        }
     }
     /// UPDATE/EDIT TWEET
     pub async fn edit_tweet(self, message: &str, media_id: &str) -> Result<Value, TweetyError> {
@@ -94,9 +110,8 @@ impl TweetyClient {
             "text": message,
         });
 
-        return self
-            .send_request(&base_url, Method::PATCH, Some(body))
-            .await;
+        self.send_request(&base_url, Method::PATCH, Some(body))
+            .await
     }
 
     /// DELETE TWEET
@@ -106,13 +121,11 @@ impl TweetyClient {
         let url = format!("https://api.x.com/2/tweets/{}", tweet_id);
 
         match self.send_request::<()>(&url, Method::DELETE, None).await {
-            Ok(value) => {
-                match serde_json::from_value::<DeleteResponse>(value) {
-                    Ok(res) => Ok(res),
-                    Err(e) => Err(TweetyError::JsonParseError(e.to_string())), // TODO: better way to handle such error
-                }
-            }
-            Err(e) => Err(e),
+            Ok(value) => match serde_json::from_value::<DeleteResponse>(value) {
+                Ok(res) => Ok(res),
+                Err(err) => Err(TweetyError::JsonParseError(err.to_string())),
+            },
+            Err(err) => Err(err),
         }
     }
 }

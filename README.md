@@ -23,7 +23,7 @@ Add `tweety-rs` to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-tweety-rs = "0.1.0"
+tweety-rs = "0.1.2"
 ```
 #### Alternatively
 
@@ -155,6 +155,18 @@ The crate is organized into several modules, each responsible for different aspe
 - tweet - Post and manage tweets
 - uploads - Upload media files
 - user - Manage user information
+
+### Command Issues
+
+- **Authentication Issues**: When authenticating requests to the Twitter API v2 endpoints, you must use keys and tokens from a Twitter developer App that is attached to a Project. You can create a project via the [Twitter Developer Portal](https://developer.twitter.com/en/portal/dashboard).
+
+- **OAuth1 Permissions**: Your client app might not be configured with the appropriate OAuth1 app permissions for this endpoint.
+
+### Error Resolution
+
+- **Endpoint Access**: Some errors may indicate that you need to upgrade to the premium tier to access certain endpoints.
+
+
 
 ## Contributing
 Contributions are welcome! Please feel free to submit a pull request or open an issue on GitHub.

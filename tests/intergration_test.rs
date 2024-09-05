@@ -2,6 +2,7 @@ use dotenvy::dotenv;
 use std::env;
 use tweety_rs::api::direct_messages::*;
 use tweety_rs::api::user::{Expansions, TweetFields, UserFields, UserQueryParams};
+use tweety_rs::types::tweet::PostTweetParams;
 use tweety_rs::TweetyClient;
 
 fn setup_client() -> TweetyClient {
@@ -63,7 +64,18 @@ mod tests {
     async fn test_post_a_tweet() {
         let client = setup_client();
         let message = String::from("Hello testing tweety-rs in the attic");
-        let response = client.post_tweet(&message, None).await;
+        let body_param = PostTweetParams {
+            direct_message_deep_link: None,
+            for_super_followers_only: None,
+            geo: None,
+            media: None,
+            poll: None,
+            quote_tweet_id: None,
+            reply: None,
+            reply_settings: None,
+        };
+
+        let response = client.post_tweet(&message, Some(body_param)).await;
         assert!(response.is_ok(), "Request failed {:?}", response);
     }
 

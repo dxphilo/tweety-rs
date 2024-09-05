@@ -201,7 +201,7 @@ impl TweetyClient {
     /// GET /2/users/by
     /// Returns a variety of information about one or more users specified by their usernames.
     /// usernames
-    ///  Required 	string	A comma separated list of Twitter usernames (handles).
+    ///  Required 	string A comma separated list of Twitter usernames (handles).
     /// Up to 100 are allowed in a single request. Make sure to not include a space between commas and fields.
     pub async fn get_users_by_usernames(
         &self,

@@ -122,7 +122,7 @@ pub struct QueryParams {
     pub user_fields: Option<Vec<UserField>>,
 }
 
-/// <https://developer.x.com/en/docs/x-api/direct-messages/lookup/api-reference/get-dm_events>
+/// [Docs](https://developer.x.com/en/docs/x-api/direct-messages/lookup/api-reference/get-dm_events)
 ///
 impl QueryParams {
     pub fn to_query_string(&self) -> String {

@@ -129,7 +129,7 @@ impl TweetyClient {
             }
             Err(err) => {
                 println!("Error while sending request: {}", err);
-                return Err(TweetyError::NetworkError(err.to_string()));
+                Err(TweetyError::NetworkError(err.to_string()))
             }
         }
     }

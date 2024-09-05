@@ -122,7 +122,7 @@ pub struct BookmarkParams {
 ///
 /// ## MANAGE BOOKMARKS
 ///
-/// <https://developer.x.com/en/docs/x-api/tweets/bookmarks/api-reference>
+/// [Docs](https://developer.x.com/en/docs/x-api/tweets/bookmarks/api-reference)
 impl TweetyClient {
     /// Bookmarks lookup
     /// Lookup a user's Bookmarks
