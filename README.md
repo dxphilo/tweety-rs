@@ -4,7 +4,7 @@
 [![Docs.rs](https://docs.rs/tweety-rs/badge.svg)](https://docs.rs/tweety-rs)
 [![License](https://img.shields.io/crates/l/tweety-rs.svg)](https://github.com/dxphilo/tweety-rs/blob/main/LICENSE)
 
-**Tweety-rs** is a Rust crate for interacting with the Twitter API. It provides a convenient interface for performing actions such as posting tweets, managing followers, sending direct messages, and more.
+**tweety-rs** is a Rust crate for interacting with the Twitter API. It provides a convenient interface for performing actions such as posting tweets, managing followers, sending direct messages, and more.
 
 ## Features
 
@@ -19,42 +19,18 @@
 
 ## Installation
 
-Add `tweety-rs` to your `Cargo.toml`:
-
-```toml
-[dependencies]
-tweety-rs = "0.1.2"
-```
-#### Alternatively
+Run the command:
 
 ```
 cargo add tweety-rs
 ```
 
-Then, in your main.rs or lib.rs:
+Then, in your `main.rs` or `lib.rs`:
 
 ```rust
 use crate tweety_rs;
 ```
-## Usage
-To get started, you'll need to create a TweetyClient with your Twitter API credentials. Here's an example of how to post a tweet:
 
-```rust
-use tweety_rs::client::TweetyClient;
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let client = TweetyClient::new(
-        "your_consumer_key",
-        "your_consumer_key_secret",
-        "your_access_token",
-        "your_access_token_secret",
-    );
-
-    // Post a tweet
-    client.post_tweet("Hello, Twitter!")?;
-
-    Ok(())
-}
-```
 ## Authentication
 
 To authenticate with the Twitter API, you will need the following credentials:
@@ -65,6 +41,87 @@ To authenticate with the Twitter API, you will need the following credentials:
 - Access Token Secret: Your access token secret
 
 You can obtain these from the [Twitter Developer portal](https://developer.x.com/en/portal/projects-and-apps).
+
+## Usage
+To get started, you'll need to create a TweetyClient with your Twitter API credentials.
+
+### Example: how to post a tweet
+
+```rust
+use tweety_rs::client::TweetyClient;
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let client = TweetyClient::new(
+        "your_consumer_key",
+        "your_consumer_key_secret",
+        "your_access_token",
+        "your_access_token_secret",
+    );
+
+    // Post a tweet
+    client.post_tweet("Hello, Twitter!", None).unwrap();
+
+    Ok(())
+}
+```
+
+### Example: Tweeting with image
+
+Make a tweet with an image appended to your tweet.
+
+```rust
+use tweety_rs::{
+    types::tweet::{Media, PostTweetParams},
+    TweetyClient,
+};
+use tokio;
+
+#[tokio::main]
+fn main() {
+    let client = TweetyClient::new(
+        "your_consumer_key",
+        "your_consumer_key_secret",
+        "your_access_token",
+        "your_access_token_secret",
+    );
+
+    let path = Path::new(&file_path); // path of the image to be uploaded
+
+    match client.upload_file(&path).await {
+        Ok(value) => {
+            let media_string = value.to_string();
+            let message = format!("#{}", self.file_content.1);
+
+            let params = PostTweetParams {
+                direct_message_deep_link: None,
+                for_super_followers_only: None,
+                geo: None,
+                media: Some(Media {
+                    media_ids: vec![media_string].into(),
+                    tagged_user_ids: None,
+                }),
+                poll: None,
+                quote_tweet_id: None,
+                reply: None,
+                reply_settings: None,
+            };
+
+            match client.post_tweet(&message, Some(params)).await {
+                Ok(status_code) => {
+                    println!("Posted tweet: {:?}", status_code);
+                }
+                Err(err) => {
+                    println!("Error posting tweet: {}", err);
+                }
+            }
+        }
+        Err(err) => {
+            println!("Error uploading images{}", err);
+        }
+    }
+}
+```
+
 
 ### Example: Retweeting
 
@@ -129,12 +186,12 @@ async fn main() -> Result<(), TweetyError> {
 }
 ```
 
-# ⚠️ 🕒 Twitter API Rate Limits
+# ⚠️ Twitter API Rate Limits
 
 Twitter has a small window cap for the free tier, so it's important to be aware of the rate limits.
 
-
-  - **Elevated Access**: 300 requests per 15-minute window per user.
+  - **Free Access**: 50 requests every 24 hours. (Make a post, Delete and Get self info only).
+  - **Elevated Access**: 300 requests per 15-minute window per user (Most functionality).
 
 Check out the [rate limits Documentation](https://developer.x.com/en/docs/x-api/rate-limits)
 
@@ -156,7 +213,7 @@ The crate is organized into several modules, each responsible for different aspe
 - uploads - Upload media files
 - user - Manage user information
 
-### Command Issues
+### Common Issues
 
 - **Authentication Issues**: When authenticating requests to the Twitter API v2 endpoints, you must use keys and tokens from a Twitter developer App that is attached to a Project. You can create a project via the [Twitter Developer Portal](https://developer.twitter.com/en/portal/dashboard).
 
@@ -168,6 +225,11 @@ The crate is organized into several modules, each responsible for different aspe
 
 
 
+## Bots using this Crate
+
+- (Country Flags)[https://twitter.com/DailyPexels]
+- (AI Bot)[https://x.com/philip46906]
+
 ## Contributing
 Contributions are welcome! Please feel free to submit a pull request or open an issue on GitHub.
 
@@ -176,3 +238,5 @@ This project is licensed under the MIT License. See the LICENSE file for details
 
 ## Acknowledgments
 This project is inspired by the desire to make interacting with Twitter's API easier and more Rust-idiomatic.
+
+If you found it helpful consider giving it a star ⭐️.

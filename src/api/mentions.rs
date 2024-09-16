@@ -1,8 +1,8 @@
-use serde_qs::to_string as convert_query_to_string;
 use crate::api::client::TweetyClient;
-use serde::{Deserialize, Serialize};
 use crate::api::error::TweetyError;
 use reqwest::Method;
+use serde::{Deserialize, Serialize};
+use serde_qs::to_string as convert_query_to_string;
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
