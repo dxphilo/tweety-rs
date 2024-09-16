@@ -210,6 +210,10 @@
 //! - **Authentication Issues**: Make sure your credentials are correct.
 //! - **OAuth1 Permissions**: Ensure your app has the appropriate OAuth1 permissions.
 //!
+//! ## Bots using this Crate
+//! - [County Flags](https://twitter.com/DailyPexels)
+//! - [Kenya Shilling Rates](https://x.com/kshsrates)
+//! - [AI Bot](https://x.com/ph
 //! ## Contributing
 //! Contributions are welcome! Submit a pull request or open an issue on GitHub.
 //!
