@@ -227,8 +227,9 @@ The crate is organized into several modules, each responsible for different aspe
 
 ## Bots using this Crate
 
-- (Country Flags)[https://twitter.com/DailyPexels]
-- (AI Bot)[https://x.com/philip46906]
+- [County Flags](https://twitter.com/DailyPexels)
+- [Kenya Shilling Rates](https://x.com/kshsrates)
+- [AI Bot](https://x.com/philip46906)
 
 ## Contributing
 Contributions are welcome! Please feel free to submit a pull request or open an issue on GitHub.
