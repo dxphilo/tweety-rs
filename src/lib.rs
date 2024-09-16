@@ -213,7 +213,7 @@
 //! ## Bots using this Crate
 //! - [County Flags](https://twitter.com/DailyPexels)
 //! - [Kenya Shilling Rates](https://x.com/kshsrates)
-//! - [AI Bot](https://x.com/ph
+//! - [AI Bot](https://x.com/philip46906)
 //! ## Contributing
 //! Contributions are welcome! Submit a pull request or open an issue on GitHub.
 //!
