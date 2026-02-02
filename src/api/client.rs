@@ -116,7 +116,7 @@ impl TweetyClient {
 
                     // Returning of headers is related to this issue: https://github.com/dxphilo/tweety-rs/issues/2
                     let res = ResponseWithHeaders {
-                        response: api_response,
+                        body: api_response,
                         headers,
                     };
 
