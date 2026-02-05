@@ -123,6 +123,6 @@ pub struct TweetResponse {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ResponseWithHeaders {
-    pub response: Value,
+    pub body: Value,
     pub headers: HashMap<String, String>,
 }
